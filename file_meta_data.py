@@ -6,7 +6,7 @@ import hachoir_parser
 import sys
 
 # TODO: add TrID
-#
+# I changed this
 # https://bitbucket.org/haypo/hachoir/wiki/hachoir-metadata/code
 def getMetaData(filename):
     
