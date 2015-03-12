@@ -10,9 +10,11 @@ via ez_setup
  Usage (Windows):
      python setup.py py2exe
 """
+# https://pythonhosted.org/py2app/examples.html#cross-platform
 import os
 import urllib
 
+# http://stackoverflow.com/questions/22676/how-do-i-download-a-file-over-http-using-python
 if os.path.isfile("ez_setup.py"):
     urllib.urlretrieve ("http://peak.telecommunity.com/dist/ez_setup.py", "ez_setup.py")
     
