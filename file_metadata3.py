@@ -16,9 +16,14 @@ def main():
     # https://stackoverflow.com/questions/14546533/hachoir-retrieving-data-from-a-group
     for k in metadata._Metadata__data:
         if k:
-            print(k)
-            # print(v.values[0].value)
+            # print(k) # print all keys
+            if metadata.has(k):
+                print(f"key: `{k}`  value:")
+                for x in metadata.getValues(k):
+                    print(x)
 
+
+    print("\n")
     print(metadata.get("comment", index=0))
 
     print(metadata.getItem("comment", index=0))
@@ -33,6 +38,12 @@ def main():
         print(f"key: `{k}`  Value: `{v}`")
 
     print(metadata_dict["Creation date"])
+
+    #array:
+    print(metadata.getValues("creation_date"))
+
+    for x in metadata.getValues("creation_date"):
+        print(x)
 
 
 if __name__ == "__main__":
