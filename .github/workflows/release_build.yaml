@@ -9,20 +9,20 @@ on:
 
 jobs:
   publish:
-    name: Publish for ${{ matrix.os }}
+    name: Release Binary for ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
           - os: ubuntu-latest
             artifact_name: file_metadata
-            asset_name: file_metadata-linux-amd64
+            asset_name: file_metadata-linux-amd64.zip
           - os: windows-latest
             artifact_name: file_metadata.exe
-            asset_name: file_metadata-windows-amd64
+            asset_name: file_metadata-windows-amd64.zip
           - os: macos-latest
             artifact_name: file_metadata
-            asset_name: file_metadata-macos-amd64
+            asset_name: file_metadata-macos-amd64.zip
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -35,11 +35,15 @@ jobs:
         run: pip install -r requirements.txt
       - name: pyinstaller build binary
         run: python ./versionfile.py; pyinstaller ./file_metadata.py --clean --onefile --version-file=versionfile.txt
-      # future, create and upload zip: https://github.com/marketplace/actions/easy-zip-files
+      # https://github.com/marketplace/actions/easy-zip-files
+      - uses: papeloto/action-zip@v1
+        with:
+          files: ./dist/${{ matrix.artifact_name }}
+          dest: ./dist/file_metadata.zip
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/${{ matrix.artifact_name }}
+          file: ./dist/file_metadata.zip
           asset_name: ${{ matrix.asset_name }}
           tag: ${{ github.ref }}

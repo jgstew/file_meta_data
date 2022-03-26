@@ -10,6 +10,7 @@ def main(filepath=None):
     print("main():")
     if filepath==None:
         filepath = r"C:\Program Files\7-Zip\7z.exe"
+    print("Getting Metadata From File: " + filepath)
     parser = hachoir.parser.createParser(str(filepath))
 
     metadata = hachoir.metadata.extractMetadata(parser)
