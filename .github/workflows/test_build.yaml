@@ -1,0 +1,60 @@
+---
+name: test_build
+
+on:
+  push:
+    paths:
+      - "**.py"
+      - "setup.cfg"
+      - "MANIFEST.in"
+      - "pyproject.toml"
+      - "requirements.txt"
+      - ".github/workflows/test_build.yaml"
+      - ".github/workflows/tag_and_release.yaml"
+  pull_request:
+    paths:
+      - "**.py"
+      - "setup.cfg"
+      - "MANIFEST.in"
+      - "pyproject.toml"
+      - "requirements.txt"
+      - ".github/workflows/test_build.yaml"
+      - ".github/workflows/tag_and_release.yaml"
+
+jobs:
+  test_build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        # https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
+        python-version: ["3"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install build tools
+        run: pip install setuptools wheel build pyinstaller
+      - name: Install requirements
+        run: if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: build
+        run: python -m build
+      - name: Get Wheel File Path
+        id: getwheelfile
+        shell: bash
+        run: echo "::set-output name=wheelfile::$(find "dist" -type f -name "*.whl")"
+      - name: Test pip install of wheel
+        shell: bash
+        run: pip install $(find "dist" -type f -name "*.whl")
+      - name: Test python import
+        shell: bash
+        run: python -c "import file_metadata"
+      - name: Test pyinstaller
+        run: python ./versionfile.py; pyinstaller ./file_metadata.py --clean --onefile --version-file=versionfile.txt
+      - name: Test binary
+        run: ./dist/file_metadata ./dist/file_metadata
+      - name: Test python run
+        shell: bash
+        run: python -m file_metadata ./dist/file_metadata

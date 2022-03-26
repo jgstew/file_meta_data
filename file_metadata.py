@@ -5,8 +5,6 @@ import sys
 import hachoir.metadata
 import hachoir.parser
 
-from versionfile import __version__
-
 def main(filepath=None):
     """execution starts here"""
     print("main():")
@@ -18,13 +16,17 @@ def main(filepath=None):
 
     # See what keys you can extract
     # https://stackoverflow.com/questions/14546533/hachoir-retrieving-data-from-a-group
-    for k in metadata._Metadata__data:
-        if k:
-            # print(k) # print all keys
-            if metadata.has(k):
-                print(f"key: `{k}`  value:")
-                for x in metadata.getValues(k):
-                    print(x)
+    if not metadata:
+        print("No Metadata Found!")
+        return None
+    else:
+        for k in metadata._Metadata__data:
+            if k:
+                # print(k) # print all keys
+                if metadata.has(k):
+                    print(f"key: `{k}`  value:")
+                    for x in metadata.getValues(k):
+                        print(x)
 
 
     print("\n")
