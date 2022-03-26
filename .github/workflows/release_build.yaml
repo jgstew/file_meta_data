@@ -32,7 +32,7 @@ jobs:
       - name: Install build tools
         run: pip install setuptools wheel build pyinstaller
       - name: Install requirements
-        run: if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        run: pip install -r requirements.txt
       - name: pyinstaller build binary
         run: python ./versionfile.py; pyinstaller ./file_metadata.py --clean --onefile --version-file=versionfile.txt
       # future, create and upload zip: https://github.com/marketplace/actions/easy-zip-files
