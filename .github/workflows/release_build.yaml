@@ -1,0 +1,45 @@
+# https://github.com/marketplace/actions/upload-files-to-a-github-release
+
+name: Release Binaries
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  publish:
+    name: Publish for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact_name: file_metadata
+            asset_name: file_metadata-linux-amd64
+          - os: windows-latest
+            artifact_name: file_metadata.exe
+            asset_name: file_metadata-windows-amd64
+          - os: macos-latest
+            artifact_name: file_metadata
+            asset_name: file_metadata-macos-amd64
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3
+      - name: Install build tools
+        run: pip install setuptools wheel build pyinstaller
+      - name: Install requirements
+        run: if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: pyinstaller build binary
+        run: python ./versionfile.py; pyinstaller ./file_metadata.py --clean --onefile --version-file=versionfile.txt
+      # future, create and upload zip: https://github.com/marketplace/actions/easy-zip-files
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/${{ matrix.artifact_name }}
+          asset_name: ${{ matrix.asset_name }}
+          tag: ${{ github.ref }}
