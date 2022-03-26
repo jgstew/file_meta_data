@@ -26,7 +26,7 @@ jobs:
       - name: Get Wheel File Path
         id: getwheelfile
         shell: bash
-        run: echo "::set-output name=wheelfile::$(find "dist" -type f -name "*.whl")"
+        run: echo "::set-output name=wheelfile::$(find "dist" -type f -name "*.whl" | cut -d "/" -f2-)"
       - name: Test pip install of wheel
         shell: bash
         run: pip install $(find "dist" -type f -name "*.whl")
@@ -37,7 +37,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ steps.getwheelfile.outputs.wheelfile }}
+          file: ./dist/${{ steps.getwheelfile.outputs.wheelfile }}
           asset_name: ${{ steps.getwheelfile.outputs.wheelfile }}
           tag: ${{ github.ref }}
   publish:
