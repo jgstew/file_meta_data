@@ -1,11 +1,11 @@
 """script to test hachoir metadata parsing"""
-
+# python ./versionfile.py; pyinstaller ./file_metadata.py --clean --onefile --version-file=versionfile.txt
 import sys
 
 import hachoir.metadata
 import hachoir.parser
 
-__version__ = "0.1.0"
+from versionfile import __version__
 
 def main(filepath=None):
     """execution starts here"""
