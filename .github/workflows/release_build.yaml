@@ -1,4 +1,6 @@
 # https://github.com/marketplace/actions/upload-files-to-a-github-release
+# get commit messages between current and previous tag:
+# - git log --pretty="%h - %s (%an)" "$(git describe --abbrev=0 --tags "$(git describe --tags --abbrev=0)^")...$(git describe --tags --abbrev=0)"
 
 name: Release Binaries
 
