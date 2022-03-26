@@ -37,8 +37,8 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./dist/${{ wheelfile }}
-          asset_name: ${{ wheelfile }}
+          file: ./dist/$(find "dist" -type f -name "*.whl")
+          asset_name: $(find "dist" -type f -name "*.whl")
           tag: ${{ github.ref }}
   publish:
     # only run after above
