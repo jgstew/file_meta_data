@@ -5,6 +5,7 @@ import sys
 import hachoir.metadata
 import hachoir.parser
 
+__version__ = "0.1.0"
 
 def main(filepath=None):
     """execution starts here"""
