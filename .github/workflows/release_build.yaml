@@ -39,7 +39,7 @@ jobs:
         id: release_notes
         shell: bash
         run: |
-          git log --pretty="%h - %s (%an)" "$(git describe --abbrev=0 --tags "$(git describe --tags --abbrev=0)^")...$(git describe --tags --abbrev=0)" >> _release_notes.md
+          git log --pretty="%h - %s (%an)" $(git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^)...$(git describe --tags --abbrev=0) >> _release_notes.md
           r=$(cat _release_notes.md)                         # <--- Read release.md (Provide correct path as per your repo)
           r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
           r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
