@@ -5,9 +5,11 @@ import sys
 import hachoir.metadata
 import hachoir.parser
 
+from _version import version as __version__
+
 def main(filepath=None):
     """execution starts here"""
-    print("main():")
+    # print("main():")
     if filepath==None:
         filepath = r"C:\Program Files\7-Zip\7z.exe"
     print("Getting Metadata From File: " + filepath)
