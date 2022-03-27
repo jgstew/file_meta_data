@@ -1,13 +1,17 @@
 ---
 name: test_tmp
 
-on: push
+# only run this job when this job itself is modified
+on: 
+  push:
+    paths:
+      - ".github/workflows/test_tmp.yaml"
 
 jobs:
   test_tmp:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Test run

@@ -14,7 +14,9 @@ jobs:
     name: Publish Wheel
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -39,7 +41,7 @@ jobs:
         id: release_notes
         shell: bash
         run: |
-          git log --pretty="%h - %s (%an)" $(git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^)...$(git describe --tags --abbrev=0) >> _release_notes.md
+          git log --pretty="%h - %s (%an)" $(git tag -l --sort=-version:refname | head -n 2 | tail -n 1)...$(git tag -l --sort=-version:refname | head -n 1) >> _release_notes.md
           r=$(cat _release_notes.md)                         # <--- Read release.md (Provide correct path as per your repo)
           r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
           r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
