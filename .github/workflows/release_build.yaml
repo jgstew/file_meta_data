@@ -48,6 +48,10 @@ jobs:
           r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
           r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
           echo "::set-output name=RELEASE_BODY::$r"         # <--- Set environment variable
+      - name: test release body content
+        id: test_release_body
+        shell: bash
+        run: echo ${{ steps.release_notes.outputs.RELEASE_BODY }}
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
