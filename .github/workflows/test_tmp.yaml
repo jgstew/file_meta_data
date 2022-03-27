@@ -1,0 +1,20 @@
+---
+name: test_tmp
+
+on: push
+
+jobs:
+  test_tmp:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        # https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
+        python-version: ["3"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test run
+        shell: bash
+        run: |
+          git log --pretty="%h - %s (%an)" $(git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^)...$(git describe --tags --abbrev=0) > _release_notes.md
+          cat _release_notes.md
