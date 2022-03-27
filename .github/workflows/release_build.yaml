@@ -41,6 +41,8 @@ jobs:
         id: release_notes
         shell: bash
         run: |
+          echo | > _release_notes.md
+          echo **Full Changelog**: https://github.com/jgstew/file_meta_data/compare/$(git tag -l --sort=-version:refname | head -n 2 | tail -n 1)...$(git tag -l --sort=-version:refname | head -n 1) >> _release_notes.md
           git log --pretty="%h - %s (%an)" $(git tag -l --sort=-version:refname | head -n 2 | tail -n 1)...$(git tag -l --sort=-version:refname | head -n 1) >> _release_notes.md
           cat _release_notes.md
           r=$(cat _release_notes.md)                         # <--- Read release.md (Provide correct path as per your repo)
