@@ -9,9 +9,4 @@ from setuptools import setup
 
 setup(
     py_modules       = ["file_metadata", "_version"],
-    entry_points={
-        'console_scripts': [
-            'file_metadata = file_metadata.file_metadata:main',
-        ]
-    }
 )
