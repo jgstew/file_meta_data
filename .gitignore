@@ -53,3 +53,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# generated release notes
+_release_notes.md
