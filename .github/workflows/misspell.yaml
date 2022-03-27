@@ -1,7 +1,14 @@
 ---
 name: misspell
 
-on: [push, pull_request]
+on:
+  # https://github.community/t/workflow-with-on-push-triggers-on-release/17414
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   misspell:

@@ -6,10 +6,15 @@ on:
     paths:
       - "**.yaml"
       - "**.yml"
+    # https://github.community/t/workflow-with-on-push-triggers-on-release/17414
+    branches:
+      - '**'
   pull_request:
     paths:
       - "**.yaml"
       - "**.yml"
+    branches:
+      - '**'
 
 jobs:
   yamllint:
