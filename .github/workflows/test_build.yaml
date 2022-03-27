@@ -12,7 +12,7 @@ on:
       - ".github/workflows/test_build.yaml"
       - ".github/workflows/tag_and_release.yaml"
     branches:
-      - '**'
+      - "**"
   pull_request:
     paths:
       - "**.py"
@@ -23,7 +23,7 @@ on:
       - ".github/workflows/test_build.yaml"
       - ".github/workflows/tag_and_release.yaml"
     branches:
-      - '**'
+      - "**"
 
 jobs:
   test_build:

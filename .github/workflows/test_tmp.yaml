@@ -2,7 +2,7 @@
 name: test_tmp
 
 # only run this job when this job itself is modified
-on: 
+on:
   push:
     paths:
       - ".github/workflows/test_tmp.yaml"
