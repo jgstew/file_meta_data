@@ -6,6 +6,8 @@ on:
   push:
     paths:
       - ".github/workflows/test_tmp.yaml"
+    branches:
+      - "**"
 
 jobs:
   test_tmp:
