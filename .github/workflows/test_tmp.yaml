@@ -11,6 +11,7 @@ jobs:
       - name: Test run
         shell: bash
         run: |
+          git fetch --all --tags
           git tag -l --sort=-version:refname | head -n 1
           git describe --abbrev=0 --tags
           git describe --abbrev=0 --tags $(git describe --tags --abbrev=0)^
