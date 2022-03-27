@@ -35,6 +35,15 @@ jobs:
       - name: Test python import
         shell: bash
         run: python -c "import file_metadata"
+      - name: Get Commit Messages and use them in a body of new release
+        id: release_notes
+        shell: bash
+        run: |
+          r=$( git log --pretty="%h - %s (%an)" "$(git describe --abbrev=0 --tags "$(git describe --tags --abbrev=0)^")...$(git describe --tags --abbrev=0)" )
+          r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
+          r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
+          r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
+          echo "::set-output name=RELEASE_BODY::$r"         # <--- Set environment variable
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
@@ -42,6 +51,8 @@ jobs:
           file: ./dist/${{ steps.getwheelfile.outputs.wheelfile }}
           asset_name: ${{ steps.getwheelfile.outputs.wheelfile }}
           tag: ${{ github.ref }}
+          body: |
+            ${{ steps.release_notes.outputs.RELEASE_BODY }}
   publish:
     needs: pub_wheel
     name: Release Binary for ${{ matrix.os }}
