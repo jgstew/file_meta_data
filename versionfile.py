@@ -1,7 +1,8 @@
 
+import setuptools.config
+
 import pyinstaller_versionfile
 
-import setuptools.config
 # https://www.programcreek.com/python/example/123119/setuptools.config.read_configuration
 config_parsed = setuptools.config.read_configuration("setup.cfg").get("metadata", {})
 package_name = config_parsed["name"]

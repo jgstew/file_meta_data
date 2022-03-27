@@ -6,5 +6,12 @@ Test version with `python ./setup.py --version`
 """
 from setuptools import setup
 
-if __name__ == "__main__":
-    setup()
+
+setup(
+    py_modules       = ["file_metadata"],
+    entry_points={
+        'console_scripts': [
+            'file_metadata = file_metadata.file_metadata:main',
+        ]
+    }
+)

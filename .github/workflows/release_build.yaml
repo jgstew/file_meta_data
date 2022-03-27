@@ -68,6 +68,8 @@ jobs:
         run: pip install setuptools wheel build pyinstaller
       - name: Install requirements
         run: pip install -r requirements.txt
+      - name: get version from setup
+        run: python setup.py --version
       - name: pyinstaller build binary
         run: python ./versionfile.py; pyinstaller ./file_metadata.py --clean --onefile --version-file=versionfile.txt
       # https://github.com/marketplace/actions/easy-zip-files
