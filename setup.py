@@ -7,6 +7,4 @@ Test version with `python ./setup.py --version`
 from setuptools import setup
 
 
-setup(
-    py_modules       = ["file_metadata", "_version"],
-)
+setup()
