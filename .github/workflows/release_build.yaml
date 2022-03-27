@@ -43,7 +43,7 @@ jobs:
           asset_name: ${{ steps.getwheelfile.outputs.wheelfile }}
           tag: ${{ github.ref }}
   publish:
-    # needs: pub_wheel
+    needs: pub_wheel
     name: Release Binary for ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
