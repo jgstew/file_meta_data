@@ -4,10 +4,10 @@
 
 name: Release Binaries
 
-on:
-  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release
-  release:
-    types: [created, published, released]
+# on:
+#   # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release
+#   release:
+#     types: [created, published, released]
 
 jobs:
   pub_wheel:
