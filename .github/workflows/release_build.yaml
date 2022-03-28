@@ -41,16 +41,10 @@ jobs:
         id: release_notes
         shell: bash
         run: |
-          echo "|" > _release_notes.md
-          echo **Full Changelog**: https://github.com/jgstew/file_meta_data/compare/$(git tag -l --sort=-version:refname | head -n 2 | tail -n 1)...$(git tag -l --sort=-version:refname | head -n 1) >> _release_notes.md
+          echo **Full Changelog**: https://github.com/jgstew/file_meta_data/compare/$(git tag -l --sort=-version:refname | head -n 2 | tail -n 1)...$(git tag -l --sort=-version:refname | head -n 1) > _release_notes.md
           echo "## Commits" >> _release_notes.md
           git log --pretty="- %h - %s - %an" $(git tag -l --sort=-version:refname | head -n 2 | tail -n 1)...$(git tag -l --sort=-version:refname | head -n 1) >> _release_notes.md
           cat _release_notes.md
-          r=$(cat _release_notes.md)                         # <--- Read release.md (Provide correct path as per your repo)
-          r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
-          r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
-          r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
-          echo "::set-output name=RELEASE_BODY::$r"         # <--- Set environment variable
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@2.2.1
         with:
@@ -58,8 +52,11 @@ jobs:
           file: ./dist/${{ steps.getwheelfile.outputs.wheelfile }}
           asset_name: ${{ steps.getwheelfile.outputs.wheelfile }}
           tag: ${{ github.ref }}
-          body: |
-            ${{ steps.release_notes.outputs.RELEASE_BODY }}
+      - uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          bodyFile: "_release_notes.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
   publish:
     needs: pub_wheel
     name: Release Binary for ${{ matrix.os }}
