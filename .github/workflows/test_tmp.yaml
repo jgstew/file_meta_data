@@ -15,10 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          # required to get all tags:
           fetch-depth: 0
+          # this might also work: git fetch --all --tags
       - name: Test run
         shell: bash
-        # git fetch --all --tags
         run: |
           git tag -l --sort=-version:refname | head -n 1
           git tag -l --sort=-version:refname | head -n 2 | tail -n 1
